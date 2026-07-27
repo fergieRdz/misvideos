@@ -1,0 +1,56 @@
+{% extends 'videos_app/base.html' %}
+
+{% block titulo %}Mis videos · Mis Videos{% endblock %}
+
+{% block contenido %}
+<section class="tarjeta">
+    <h1 class="tarjeta__titulo">Mis videos</h1>
+    <p class="tarjeta__descripcion">
+        Usuario <strong>{{ persona.nombre }}</strong> (nómina {{ persona.id_nomina }}) &mdash;
+        {{ persona.videos_capturados }} de {{ persona.cantidad_videos }} videos guardados.
+    </p>
+
+    <div class="tabla-scroll">
+        <table class="tabla">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Título</th>
+                    <th>Nombre</th>
+                    <th>Extensión</th>
+                    <th>Tamaño (MB)</th>
+                    <th>Archivo</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for video in videos %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ video.titulo }}</td>
+                    <td>{{ video.nombre }}</td>
+                    <td>{{ video.extension|upper }}</td>
+                    <td>{{ video.tamano_mb }}</td>
+                    <td>
+                        {% if video.archivo %}
+                            <a href="{{ video.archivo.url }}" target="_blank" rel="noopener">Ver / descargar</a>
+                        {% else %}
+                            <span class="campo__ayuda">Sin archivo</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="6">Aún no se ha guardado ningún video.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    {% if persona.videos_capturados < persona.cantidad_videos %}
+        <div class="acciones">
+            <a href="{% url 'videos_app:registro_video' numero=persona.videos_capturados|add:1 %}" class="boton boton--guardar">
+                Continuar subiendo videos ({{ persona.videos_capturados }} de {{ persona.cantidad_videos }})
+            </a>
+        </div>
+    {% endif %}
+</section>
+{% endblock %}

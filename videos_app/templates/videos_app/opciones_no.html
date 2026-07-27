@@ -1,0 +1,20 @@
+{% extends 'videos_app/base.html' %}
+
+{% block titulo %}Corregir información · Mis Videos{% endblock %}
+
+{% block contenido %}
+<section class="tarjeta tarjeta--angosta tarjeta--centrada">
+    <h1 class="tarjeta__titulo">La información no es correcta</h1>
+    <p class="tarjeta__descripcion">
+        ¿Deseas volver a capturar tus datos o prefieres salir del sistema?
+    </p>
+
+    <div class="acciones acciones--centradas">
+        <a href="{% url 'videos_app:editar_datos' %}" class="boton boton--guardar">Corregir información</a>
+        <form method="post" action="{% url 'videos_app:cerrar_sesion' %}">
+            {% csrf_token %}
+            <button type="submit" class="boton boton--cancelar">Salir del sistema</button>
+        </form>
+    </div>
+</section>
+{% endblock %}

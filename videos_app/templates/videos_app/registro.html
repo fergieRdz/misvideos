@@ -1,0 +1,47 @@
+{% extends 'videos_app/base.html' %}
+
+{% block titulo %}Crear cuenta · Mis Videos{% endblock %}
+
+{% block contenido %}
+<section class="tarjeta tarjeta--angosta">
+    <h1 class="tarjeta__titulo">Crea tu cuenta</h1>
+    <p class="tarjeta__descripcion">
+        Registra un usuario y contraseña para poder volver a iniciar sesión
+        más adelante y ver los videos que hayas subido.
+    </p>
+
+    <form method="post" novalidate>
+        {% csrf_token %}
+
+        {% for field in form %}
+        <div class="campo">
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {% if field.field.widget.input_type == 'password' %}
+                <div class="campo__password">
+                    {{ field }}
+                    <button type="button" class="campo__ojo" onclick="alternarContrasena(this)" aria-label="Mostrar contraseña">👁</button>
+                </div>
+            {% else %}
+                {{ field }}
+            {% endif %}
+            {% if field.errors %}
+                <ul class="campo__errores">
+                    {% for error in field.errors %}<li>{{ error }}</li>{% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+        {% endfor %}
+
+        {% if form.non_field_errors %}
+            <ul class="campo__errores">
+                {% for error in form.non_field_errors %}<li>{{ error }}</li>{% endfor %}
+            </ul>
+        {% endif %}
+
+        <div class="acciones">
+            <button type="submit" class="boton boton--guardar">Crear cuenta y continuar</button>
+            <a href="{% url 'videos_app:iniciar_sesion' %}" class="boton boton--cancelar">Ya tengo cuenta</a>
+        </div>
+    </form>
+</section>
+{% endblock %}

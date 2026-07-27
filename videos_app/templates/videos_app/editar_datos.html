@@ -1,0 +1,33 @@
+{% extends 'videos_app/base.html' %}
+
+{% block titulo %}Corregir información · Mis Videos{% endblock %}
+
+{% block contenido %}
+<section class="tarjeta tarjeta--angosta">
+    <h1 class="tarjeta__titulo">Corrige tu información</h1>
+    <p class="tarjeta__descripcion">
+        ID / número de nómina: <strong>{{ persona.id_nomina }}</strong> (no se puede modificar).
+    </p>
+
+    <form method="post" novalidate>
+        {% csrf_token %}
+
+        {% for field in form %}
+        <div class="campo">
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {{ field }}
+            {% if field.errors %}
+                <ul class="campo__errores">
+                    {% for error in field.errors %}<li>{{ error }}</li>{% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+        {% endfor %}
+
+        <div class="acciones">
+            <button type="submit" class="boton boton--guardar">Guardar cambios</button>
+            <a href="{% url 'videos_app:historial' %}" class="boton boton--cancelar">Cancelar</a>
+        </div>
+    </form>
+</section>
+{% endblock %}

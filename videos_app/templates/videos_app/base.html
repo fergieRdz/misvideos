@@ -1,0 +1,63 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block titulo %}Mis Videos{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'videos_app/css/style.css' %}">
+</head>
+<body>
+    <header class="encabezado">
+        <div class="contenedor encabezado__interior">
+            <div class="encabezado__fila">
+                <a href="{% url 'videos_app:inicio' %}" class="marca">
+                    <span class="marca__icono">🎬</span> Mis Videos
+                </a>
+                <nav class="encabezado__nav">
+                    {% if user.is_authenticated %}
+                        <span class="encabezado__usuario">👤 {{ user.username }}</span>
+                        <a href="{% url 'videos_app:historial' %}" class="enlace-nav">Mis videos</a>
+                        <form method="post" action="{% url 'videos_app:cerrar_sesion' %}" class="form-nav">
+                            {% csrf_token %}
+                            <button type="submit" class="enlace-nav enlace-nav--boton">Cerrar sesión</button>
+                        </form>
+                    {% else %}
+                        <a href="{% url 'videos_app:iniciar_sesion' %}" class="enlace-nav">Iniciar sesión</a>
+                        <a href="{% url 'videos_app:registro' %}" class="enlace-nav">Crear cuenta</a>
+                    {% endif %}
+                </nav>
+            </div>
+            <p class="encabezado__subtitulo">Registro y administración de tus videos</p>
+        </div>
+    </header>
+
+    <main class="contenedor contenido">
+        {% if messages %}
+            <ul class="mensajes">
+                {% for message in messages %}
+                    <li class="mensaje mensaje--{{ message.tags }}">{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        {% block contenido %}{% endblock %}
+    </main>
+
+    <footer class="pie">
+        <div class="contenedor">
+            <p>Mis Videos &mdash; Trabajo final (Python · Django · PostgreSQL)</p>
+        </div>
+    </footer>
+
+    <script>
+        function alternarContrasena(boton) {
+            const input = boton.previousElementSibling;
+            const seVaAMostrar = input.type === 'password';
+            input.type = seVaAMostrar ? 'text' : 'password';
+            boton.textContent = seVaAMostrar ? '🙈' : '👁';
+            boton.setAttribute('aria-label', seVaAMostrar ? 'Ocultar contraseña' : 'Mostrar contraseña');
+        }
+    </script>
+</body>
+</html>

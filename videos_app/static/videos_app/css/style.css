@@ -1,0 +1,384 @@
+/* =========================================================
+   Mis Videos — hoja de estilos principal
+   Paleta moderna, diseño limpio y responsivo (mobile-first).
+   ========================================================= */
+
+:root {
+    --color-primario: #4f46e5;
+    --color-primario-oscuro: #4338ca;
+    --color-exito: #16a34a;
+    --color-exito-oscuro: #15803d;
+    --color-peligro: #e11d48;
+    --color-peligro-oscuro: #be123c;
+    --color-texto: #1f2937;
+    --color-texto-suave: #6b7280;
+    --color-fondo: #f3f4f6;
+    --color-tarjeta: #ffffff;
+    --color-borde: #e5e7eb;
+    --radio: 12px;
+    --sombra: 0 10px 25px rgba(15, 23, 42, 0.08);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: linear-gradient(180deg, #eef2ff 0%, var(--color-fondo) 320px);
+    color: var(--color-texto);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.contenedor {
+    width: 100%;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 1.25rem;
+}
+
+/* --- Encabezado -------------------------------------------------- */
+.encabezado {
+    padding: 1.75rem 0 1.25rem;
+}
+
+.encabezado__interior {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+}
+
+.marca {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-primario);
+    text-decoration: none;
+}
+
+.marca__icono {
+    margin-right: 0.35rem;
+}
+
+.encabezado__subtitulo {
+    margin: 0;
+    color: var(--color-texto-suave);
+    font-size: 0.95rem;
+}
+
+.encabezado__fila {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.encabezado__nav {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.encabezado__usuario {
+    color: var(--color-texto-suave);
+    font-size: 0.9rem;
+}
+
+.enlace-nav {
+    color: var(--color-primario);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.enlace-nav:hover {
+    text-decoration: underline;
+}
+
+.enlace-nav--boton {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    font-family: inherit;
+}
+
+.form-nav {
+    margin: 0;
+    display: inline;
+}
+
+/* --- Contenido / tarjetas ------------------------------------------ */
+.contenido {
+    flex: 1;
+    padding-bottom: 3rem;
+}
+
+.tarjeta {
+    background: var(--color-tarjeta);
+    border-radius: var(--radio);
+    box-shadow: var(--sombra);
+    padding: 2rem;
+    margin-top: 0.5rem;
+}
+
+.tarjeta--angosta {
+    max-width: 560px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.tarjeta--centrada {
+    text-align: center;
+}
+
+.tarjeta__titulo {
+    margin-top: 0;
+    font-size: 1.5rem;
+}
+
+.tarjeta__descripcion {
+    color: var(--color-texto-suave);
+    margin-bottom: 1.5rem;
+}
+
+.mensaje-confirmacion {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    background: #eef2ff;
+    border: 1px solid #c7d2fe;
+    border-radius: var(--radio);
+    padding: 1rem 1.25rem;
+    margin-bottom: 1rem;
+}
+
+/* --- Formularios ----------------------------------------------------- */
+.campo {
+    margin-bottom: 1.1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.campo label {
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.campo input,
+.campo select {
+    padding: 0.65rem 0.8rem;
+    border: 1px solid var(--color-borde);
+    border-radius: 8px;
+    font-size: 1rem;
+    background: #fff;
+    color: var(--color-texto);
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.campo input:focus,
+.campo select:focus {
+    outline: none;
+    border-color: var(--color-primario);
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+}
+
+.campo__password {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.campo__password input {
+    width: 100%;
+    padding-right: 2.6rem;
+}
+
+.campo__ojo {
+    position: absolute;
+    right: 0.5rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.05rem;
+    line-height: 1;
+    padding: 0.3rem;
+    color: var(--color-texto-suave);
+}
+
+.campo__ojo:hover {
+    color: var(--color-texto);
+}
+
+.campo__ayuda {
+    margin: 0;
+    font-size: 0.82rem;
+    color: var(--color-texto-suave);
+}
+
+.campo__errores {
+    margin: 0.1rem 0 0;
+    padding-left: 1.1rem;
+    color: var(--color-peligro);
+    font-size: 0.85rem;
+}
+
+/* --- Mensajes flash (Django messages) -------------------------------- */
+.mensajes {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.mensaje {
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    font-size: 0.92rem;
+}
+
+.mensaje--error {
+    background: #fee2e2;
+    color: var(--color-peligro-oscuro);
+    border: 1px solid #fecaca;
+}
+
+.mensaje--warning {
+    background: #fef3c7;
+    color: #92400e;
+    border: 1px solid #fde68a;
+}
+
+.mensaje--info {
+    background: #dbeafe;
+    color: #1e40af;
+    border: 1px solid #bfdbfe;
+}
+
+.mensaje--success {
+    background: #dcfce7;
+    color: var(--color-exito-oscuro);
+    border: 1px solid #bbf7d0;
+}
+
+/* --- Botones ----------------------------------------------------------- */
+.acciones {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1.25rem;
+}
+
+.acciones--centradas {
+    justify-content: center;
+}
+
+.boton {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.7rem 1.4rem;
+    border-radius: 8px;
+    border: none;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    transition: transform 0.05s ease, background-color 0.15s ease;
+}
+
+.boton:active {
+    transform: scale(0.98);
+}
+
+.boton--guardar {
+    background: var(--color-exito);
+    color: #fff;
+}
+
+.boton--guardar:hover {
+    background: var(--color-exito-oscuro);
+}
+
+.boton--cancelar {
+    background: #fff;
+    color: var(--color-peligro);
+    border: 1px solid var(--color-peligro);
+}
+
+.boton--cancelar:hover {
+    background: var(--color-peligro);
+    color: #fff;
+}
+
+/* --- Barra de progreso (captura de videos) ------------------------------ */
+.progreso {
+    height: 8px;
+    background: var(--color-borde);
+    border-radius: 999px;
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+}
+
+.progreso__barra {
+    height: 100%;
+    background: var(--color-primario);
+    transition: width 0.2s ease;
+}
+
+/* --- Tabla resumen -------------------------------------------------------- */
+.tabla-scroll {
+    overflow-x: auto;
+}
+
+.tabla {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 0.5rem;
+}
+
+.tabla th,
+.tabla td {
+    text-align: left;
+    padding: 0.65rem 0.75rem;
+    border-bottom: 1px solid var(--color-borde);
+    font-size: 0.92rem;
+}
+
+.tabla th {
+    color: var(--color-texto-suave);
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.03em;
+}
+
+/* --- Pie de página ---------------------------------------------------------- */
+.pie {
+    padding: 1.5rem 0;
+    color: var(--color-texto-suave);
+    font-size: 0.82rem;
+    text-align: center;
+}
+
+/* --- Responsivo --------------------------------------------------------------- */
+@media (max-width: 600px) {
+    .tarjeta {
+        padding: 1.4rem;
+        border-radius: 0;
+    }
+
+    .acciones {
+        flex-direction: column;
+    }
+
+    .boton {
+        width: 100%;
+    }
+}

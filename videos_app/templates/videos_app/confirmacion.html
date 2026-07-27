@@ -1,0 +1,19 @@
+{% extends 'videos_app/base.html' %}
+
+{% block titulo %}Confirmación · Mis Videos{% endblock %}
+
+{% block contenido %}
+<section class="tarjeta tarjeta--angosta tarjeta--centrada">
+    <h1 class="tarjeta__titulo">Confirma tu información</h1>
+
+    <p class="mensaje-confirmacion">{{ mensaje }}</p>
+
+    <p class="tarjeta__descripcion">¿La información es correcta?</p>
+
+    <form method="post" class="acciones acciones--centradas">
+        {% csrf_token %}
+        <button type="submit" name="respuesta" value="si" class="boton boton--guardar">Sí</button>
+        <button type="submit" name="respuesta" value="no" class="boton boton--cancelar">No</button>
+    </form>
+</section>
+{% endblock %}
