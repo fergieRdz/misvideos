@@ -10,6 +10,14 @@
         {{ persona.videos_capturados }} de {{ persona.cantidad_videos }} videos guardados.
     </p>
 
+    <form method="get" class="campo" style="flex-direction:row;gap:.5rem;align-items:center;margin-bottom:1rem;">
+        <input type="text" name="q" value="{{ q }}" placeholder="Buscar por título o nombre…" style="flex:1">
+        <button type="submit" class="boton boton--guardar" style="padding:.65rem 1rem;">Buscar</button>
+        {% if q %}
+            <a href="{% url 'videos_app:historial' %}" class="boton boton--cancelar" style="padding:.65rem 1rem;">Limpiar</a>
+        {% endif %}
+    </form>
+
     <div class="tabla-scroll">
         <table class="tabla">
             <thead>
@@ -19,7 +27,8 @@
                     <th>Nombre</th>
                     <th>Extensión</th>
                     <th>Tamaño (MB)</th>
-                    <th>Archivo</th>
+                    <th>Video</th>
+                    <th>Acción</th>
                 </tr>
             </thead>
             <tbody>
@@ -32,14 +41,31 @@
                     <td>{{ video.tamano_mb }}</td>
                     <td>
                         {% if video.archivo %}
-                            <a href="{{ video.archivo.url }}" target="_blank" rel="noopener">Ver / descargar</a>
+                            {% if video.extension == "mp4" or video.extension == "webm" or video.extension == "mov" %}
+                                <video controls style="max-width:220px;border-radius:6px;">
+                                    <source src="{{ video.archivo.url }}" type="video/{{ video.extension }}">
+                                </video>
+                            {% else %}
+                                <a href="{{ video.archivo.url }}" target="_blank" rel="noopener">Descargar</a>
+                            {% endif %}
                         {% else %}
                             <span class="campo__ayuda">Sin archivo</span>
                         {% endif %}
                     </td>
+                    <td>
+                        <form method="post" action="{% url 'videos_app:eliminar_video' video.id %}"
+                              onsubmit="return confirm('¿Eliminar «{{ video.titulo }}»? Esta acción no se puede deshacer.')">
+                            {% csrf_token %}
+                            <button type="submit" class="boton boton--cancelar" style="padding:.4rem .8rem;font-size:.85rem;">
+                                Eliminar
+                            </button>
+                        </form>
+                    </td>
                 </tr>
                 {% empty %}
-                <tr><td colspan="6">Aún no se ha guardado ningún video.</td></tr>
+                <tr><td colspan="7">
+                    {% if q %}No se encontraron videos con «{{ q }}».{% else %}Aún no se ha guardado ningún video.{% endif %}
+                </td></tr>
                 {% endfor %}
             </tbody>
         </table>

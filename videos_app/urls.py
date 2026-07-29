@@ -21,4 +21,5 @@ urlpatterns = [
     path('editar/', views.editar_datos, name='editar_datos'),
     path('video/<int:numero>/', views.registro_video, name='registro_video'),
     path('historial/', views.historial, name='historial'),
+    path('video/<int:video_id>/eliminar/', views.eliminar_video, name='eliminar_video'),
 ]

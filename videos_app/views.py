@@ -25,11 +25,12 @@ viaje en la URL o en la sesión).
 from django.contrib import messages
 from django.contrib.auth import get_user_model, login
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 from django.shortcuts import render, redirect, get_object_or_404
 
 from .entidades import Persona, Video
 from .forms import RegistroForm, EditarPersonaForm, VideoForm
-from .models import PersonaModel
+from .models import PersonaModel, VideoModel
 
 CLAVE_SESION_PERSONA = 'persona'
 
@@ -180,9 +181,26 @@ def registro_video(request, numero):
 def historial(request):
     """'Mis videos': muestra la persona y todos sus videos guardados."""
     persona_registro = get_object_or_404(PersonaModel, usuario=request.user)
+    q = request.GET.get('q', '').strip()
     videos_bd = persona_registro.videos.all()
+    if q:
+        videos_bd = videos_bd.filter(Q(titulo__icontains=q) | Q(nombre__icontains=q))
 
     return render(request, 'videos_app/historial.html', {
         'persona': persona_registro,
         'videos': videos_bd,
+        'q': q,
     })
+
+
+@login_required
+def eliminar_video(request, video_id):
+    """Elimina un video (registro + archivo físico) que pertenezca al usuario."""
+    persona_registro = get_object_or_404(PersonaModel, usuario=request.user)
+    video = get_object_or_404(VideoModel, id=video_id, persona=persona_registro)
+    if request.method == 'POST':
+        if video.archivo:
+            video.archivo.delete(save=False)
+        video.delete()
+        messages.success(request, 'Video eliminado correctamente.')
+    return redirect('videos_app:historial')
