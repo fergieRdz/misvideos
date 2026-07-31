@@ -68,6 +68,17 @@ export default function History() {
           <div className="progreso__barra" style={{ width: `${pct}%` }} />
         </div>
 
+        {persona.videos_capturados < persona.cantidad_videos && (
+          <div style={{ marginBottom: '1.25rem' }}>
+            <button
+              onClick={() => navigate(`/video/${persona.videos_capturados + 1}`)}
+              className="boton boton--guardar"
+            >
+              ➕ Agregar video nuevo
+            </button>
+          </div>
+        )}
+
         <form onSubmit={handleSearch} className="buscador">
           <input
             type="text"
