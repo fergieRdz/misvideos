@@ -1,5 +1,6 @@
 """Endpoints REST para el frontend React."""
 from django.contrib.auth import get_user_model, authenticate
+from django.db import transaction
 from django.shortcuts import get_object_or_404
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes, parser_classes
@@ -25,11 +26,12 @@ def register(request):
         return Response({'errors': form.errors}, status=status.HTTP_400_BAD_REQUEST)
     try:
         persona = Persona.capturar(form.cleaned_data)
-        user = User.objects.create_user(
-            username=form.cleaned_data['username'],
-            password=form.cleaned_data['password1'],
-        )
-        persona.guardar(usuario=user)
+        with transaction.atomic():
+            user = User.objects.create_user(
+                username=form.cleaned_data['username'],
+                password=form.cleaned_data['password1'],
+            )
+            persona.guardar(usuario=user)
         token, _ = Token.objects.get_or_create(user=user)
         return Response({'token': token.key, 'username': user.username}, status=status.HTTP_201_CREATED)
     except Exception as e:

@@ -25,6 +25,7 @@ viaje en la URL o en la sesión).
 from django.contrib import messages
 from django.contrib.auth import get_user_model, login
 from django.contrib.auth.decorators import login_required
+from django.db import transaction
 from django.db.models import Q
 from django.shortcuts import render, redirect, get_object_or_404
 
@@ -52,11 +53,12 @@ def registro(request):
         if form.is_valid():
             try:
                 persona = Persona.capturar(form.cleaned_data)
-                nuevo_usuario = get_user_model().objects.create_user(
-                    username=form.cleaned_data['username'],
-                    password=form.cleaned_data['password1'],
-                )
-                persona.guardar(usuario=nuevo_usuario)
+                with transaction.atomic():
+                    nuevo_usuario = get_user_model().objects.create_user(
+                        username=form.cleaned_data['username'],
+                        password=form.cleaned_data['password1'],
+                    )
+                    persona.guardar(usuario=nuevo_usuario)
             except Exception as error:
                 messages.error(request, f'No se pudo completar el registro: {error}')
             else:
