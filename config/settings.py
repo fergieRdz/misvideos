@@ -105,7 +105,7 @@ STATICFILES_DIRS = [BASE_DIR / 'videos_app' / 'static']
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 # --- Archivos subidos por el usuario (videos) ------------------------------
-MEDIA_URL = 'media/'
+MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 # --- Autenticación (usuario/contraseña para ver los videos pasados) --------
