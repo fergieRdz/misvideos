@@ -131,4 +131,8 @@ REST_FRAMEWORK = {
 CORS_ALLOWED_ORIGINS = os.environ.get(
     'CORS_ALLOWED_ORIGINS', 'http://localhost:5173'
 ).split(',')
+CORS_ALLOWED_ORIGIN_REGEXES = [
+    r'^https://.*\.netlify\.app$',
+    r'^https://.*\.up\.railway\.app$',
+]
 CORS_ALLOW_CREDENTIALS = False
