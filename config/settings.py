@@ -6,6 +6,7 @@ desde variables de entorno / archivo .env para no exponerlas en el código.
 """
 from pathlib import Path
 import os
+from django.core.management.utils import get_random_secret_key
 from dotenv import load_dotenv
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -14,9 +15,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 load_dotenv(BASE_DIR / '.env')
 
 # --- Seguridad ---------------------------------------------------------
-SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'inseguro-solo-para-desarrollo')
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY') or get_random_secret_key()
 DEBUG = os.environ.get('DJANGO_DEBUG', 'True') == 'True'
 ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS', '127.0.0.1,localhost').split(',')
+
+# En producción acepta automáticamente el dominio que Railway asigna.
+RAILWAY_HOST = os.environ.get('RAILWAY_PUBLIC_DOMAIN', '')
+if RAILWAY_HOST and RAILWAY_HOST not in ALLOWED_HOSTS:
+    ALLOWED_HOSTS.append(RAILWAY_HOST)
 
 # --- Aplicaciones instaladas --------------------------------------------
 INSTALLED_APPS = [
