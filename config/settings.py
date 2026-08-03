@@ -19,10 +19,9 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY') or get_random_secret_key()
 DEBUG = os.environ.get('DJANGO_DEBUG', 'True') == 'True'
 ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS', '127.0.0.1,localhost').split(',')
 
-# En producción acepta automáticamente el dominio que Railway asigna.
-RAILWAY_HOST = os.environ.get('RAILWAY_PUBLIC_DOMAIN', '')
-if RAILWAY_HOST and RAILWAY_HOST not in ALLOWED_HOSTS:
-    ALLOWED_HOSTS.append(RAILWAY_HOST)
+# Acepta automáticamente cualquier subdominio de Railway.
+if os.environ.get('RAILWAY_ENVIRONMENT_NAME'):
+    ALLOWED_HOSTS.append('.up.railway.app')
 
 # --- Aplicaciones instaladas --------------------------------------------
 INSTALLED_APPS = [
